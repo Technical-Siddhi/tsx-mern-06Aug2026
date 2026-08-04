@@ -88,6 +88,7 @@ export const CharacterModal: React.FC<CharacterModalProps> = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
             onClick={onClose}
+            data-testid="modal-backdrop"
             className="fixed inset-0 bg-slate-950/80 backdrop-blur-xl"
             aria-hidden="true"
           />
