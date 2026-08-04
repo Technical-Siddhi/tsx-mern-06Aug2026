@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Character } from '../../types';
+import { getSpeciesTheme } from '../../utils/speciesTheme';
 
 interface CharacterCardProps {
   character: Character;
@@ -8,6 +9,8 @@ interface CharacterCardProps {
 }
 
 export const CharacterCard: React.FC<CharacterCardProps> = memo(({ character, onViewDetails }) => {
+  const theme = getSpeciesTheme(character.species);
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -24,7 +27,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = memo(({ character, on
       whileHover={{ y: -8, scale: 1.03 }}
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       aria-label={`View details for ${character.name}, ${character.species} from ${character.homeworld}`}
-      className="group relative bg-slate-900/70 border border-slate-800/80 hover:border-amber-400/60 rounded-3xl overflow-hidden shadow-2xl backdrop-blur-xl flex flex-col justify-between cursor-pointer transition-colors duration-300 hover:shadow-[0_10px_30px_rgba(245,158,11,0.15)] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+      className={`group relative border rounded-3xl overflow-hidden shadow-2xl backdrop-blur-xl flex flex-col justify-between cursor-pointer transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${theme.gradient} ${theme.border} ${theme.hoverBorder} ${theme.hoverGlow}`}
     >
       {/* Top Image Section */}
       <div className="relative h-60 w-full overflow-hidden bg-slate-950">
@@ -38,9 +41,16 @@ export const CharacterCard: React.FC<CharacterCardProps> = memo(({ character, on
         {/* Dark Vignette Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
 
-        {/* Species Badge with subtle hover animation */}
+        {/* Species Badge — themed per species */}
         <motion.div whileHover={{ scale: 1.05 }} className="absolute top-3.5 right-3.5 z-10">
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono font-semibold bg-slate-950/85 border border-amber-400/40 text-amber-300 backdrop-blur-md shadow-lg group-hover:border-amber-400 group-hover:bg-amber-400/20 transition duration-300">
+          <span
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold backdrop-blur-md shadow-lg border transition duration-300 ${theme.badge} ${theme.badgeBorder}`}
+          >
+            <span
+              className="w-1.5 h-1.5 rounded-full opacity-80"
+              style={{ background: 'currentColor' }}
+              aria-hidden="true"
+            />
             {character.species}
           </span>
         </motion.div>
@@ -76,7 +86,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = memo(({ character, on
       {/* Content Section */}
       <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
         <div>
-          <h3 className="text-lg font-black text-white font-mono tracking-tight group-hover:text-amber-400 transition-colors">
+          <h3 className={`text-lg font-black text-white font-mono tracking-tight transition-colors ${theme.titleHover}`}>
             {character.name}
           </h3>
 
@@ -92,8 +102,10 @@ export const CharacterCard: React.FC<CharacterCardProps> = memo(({ character, on
           </div>
         </div>
 
-        {/* View Details Visual Cue Button */}
-        <div className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-slate-800 group-hover:from-amber-400 group-hover:to-amber-500 text-amber-300 group-hover:text-slate-950 border border-amber-500/30 group-hover:border-amber-400 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md flex items-center justify-center space-x-2">
+        {/* View Details Button — inherits species badge accent */}
+        <div
+          className={`w-full py-2.5 px-4 rounded-xl border font-mono text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md flex items-center justify-center space-x-2 bg-gradient-to-r from-transparent to-slate-800 group-hover:to-slate-700 text-slate-300 group-hover:text-white border-slate-700/60 group-hover:border-slate-600`}
+        >
           <span>View Details</span>
           <svg
             className="w-4 h-4 group-hover:translate-x-1 transition-transform"
