@@ -14,26 +14,14 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
   filters,
   onFilterChange,
   onResetFilters,
-  speciesList = ['Human', 'Wookiee', "Yoda's Species", 'Togruta', 'Droid', 'Human / Sith'],
-  homeworldList = [
-    'Tatooine',
-    'Alderaan',
-    'Dagobah',
-    'Corellia',
-    'Kashyyyk',
-    'Stewjon',
-    'Naboo',
-    'Mandalore',
-  ],
-  filmsList = [
-    'A New Hope',
-    'The Empire Strikes Back',
-    'Return of the Jedi',
-    'Revenge of the Sith',
-    'The Phantom Menace',
-    'The Mandalorian',
-  ],
+  speciesList = [],
+  homeworldList = [],
+  filmsList = [],
 }) => {
+  const hasActiveFilters = Boolean(
+    filters.search || filters.species || filters.homeworld || filters.film
+  );
+
   return (
     <div
       className="flex flex-col md:flex-row flex-wrap items-stretch md:items-center gap-3 bg-slate-900/70 border border-slate-800/80 rounded-2xl p-3 sm:p-4 shadow-xl backdrop-blur-xl"
@@ -106,10 +94,17 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
       <button
         type="button"
         onClick={onResetFilters}
-        className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 border border-slate-700 font-mono text-xs font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 whitespace-nowrap"
+        disabled={!hasActiveFilters}
+        className={`px-4 py-2.5 rounded-xl border font-mono text-xs font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 whitespace-nowrap ${
+          hasActiveFilters
+            ? 'bg-amber-400/10 hover:bg-amber-400 hover:text-slate-950 text-amber-300 border-amber-500/40'
+            : 'bg-slate-800/40 text-slate-500 border-slate-800 cursor-not-allowed'
+        }`}
       >
         Reset Filters
       </button>
     </div>
   );
 };
+
+export default FilterPanel;

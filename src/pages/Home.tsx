@@ -10,9 +10,10 @@ import {
   Pagination,
   SkeletonLoader,
   ErrorState,
+  EmptyState,
   Footer,
 } from '../components';
-import { useCharacters } from '../hooks';
+import { useCharacters, useDebounce, useFilteredCharacters } from '../hooks';
 import { Character, FilterOptions } from '../types';
 
 export const Home: React.FC = () => {
@@ -21,33 +22,66 @@ export const Home: React.FC = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  // Filter Placeholder State (Unchanged per requirements)
-  const [filters, setFilters] = useState<FilterOptions>({
-    search: '',
+  // Search Input State (Immediate response for fluid input typing)
+  const [searchInput, setSearchInput] = useState<string>('');
+
+  // Debounce search input by 300ms
+  const debouncedSearch = useDebounce(searchInput, 300);
+
+  // Filter Dropdown Options State
+  const [filters, setFilters] = useState<Omit<FilterOptions, 'search'>>({
     species: '',
     homeworld: '',
     film: '',
   });
 
+  // Combined Active Filters Object (using 300ms debounced search)
+  const activeFilters: FilterOptions = {
+    search: debouncedSearch,
+    species: filters.species,
+    homeworld: filters.homeworld,
+    film: filters.film,
+  };
+
   // React Query SWAPI Live Data Integration
   const { data, isLoading, isError, error, refetch, isFetching } = useCharacters(currentPage);
 
-  const characters = data?.results || [];
+  const rawCharacters = data?.results || [];
   const totalPages = data?.totalPages || 1;
   const totalCharacters = data?.count || 0;
 
-  // Filter & Modal Handlers
+  // Custom hook for memoized filtering & dynamic dropdown lists
+  const { filteredCharacters, availableSpecies, availableHomeworlds, availableFilms } =
+    useFilteredCharacters(rawCharacters, activeFilters);
+
+  // Handlers
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    setCurrentPage(1); // Reset page on search change
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput('');
+    setCurrentPage(1);
+  };
+
   const handleFilterChange = (key: keyof FilterOptions, value: string) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+    if (key === 'search') {
+      setSearchInput(value);
+    } else {
+      setFilters((prev) => ({ ...prev, [key]: value }));
+    }
+    setCurrentPage(1); // Reset page on filter change
   };
 
   const handleResetFilters = () => {
+    setSearchInput('');
     setFilters({
-      search: '',
       species: '',
       homeworld: '',
       film: '',
     });
+    setCurrentPage(1);
   };
 
   const handleViewDetails = (character: Character) => {
@@ -76,8 +110,9 @@ export const Home: React.FC = () => {
             <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
               <div className="flex-1 max-w-xl">
                 <SearchBar
-                  value={filters.search}
-                  onChange={(e) => handleFilterChange('search', e.target.value)}
+                  value={searchInput}
+                  onChange={handleSearchChange}
+                  onClear={handleClearSearch}
                 />
               </div>
 
@@ -90,15 +125,18 @@ export const Home: React.FC = () => {
               )}
             </div>
 
-            {/* Reusable Filter Panel */}
+            {/* Reusable Filter Panel with Dynamic Options */}
             <FilterPanel
-              filters={filters}
+              filters={activeFilters}
               onFilterChange={handleFilterChange}
               onResetFilters={handleResetFilters}
+              speciesList={availableSpecies}
+              homeworldList={availableHomeworlds}
+              filmsList={availableFilms}
             />
           </div>
 
-          {/* Conditional Rendering: Error State vs Loading vs Live SWAPI Character Grid */}
+          {/* Conditional Rendering: Error State vs Loading vs Live SWAPI Character Grid vs EmptyState */}
           <div aria-live="polite">
             {isError ? (
               <ErrorState
@@ -107,41 +145,21 @@ export const Home: React.FC = () => {
               />
             ) : isLoading ? (
               <SkeletonLoader count={8} />
-            ) : characters.length === 0 ? (
-              <div className="text-center py-16 bg-slate-900/40 border border-slate-800 rounded-3xl backdrop-blur-md">
-                <div
-                  className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-amber-400/10 text-amber-400 flex items-center justify-center font-mono font-bold text-xl"
-                  aria-hidden="true"
-                >
-                  🔍
-                </div>
-                <h3 className="text-xl font-bold font-mono text-white mb-2">
-                  No Holocron Records Found
-                </h3>
-                <p className="text-sm text-slate-400 mb-6">
-                  No Star Wars characters returned from the Galactic Registry.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => refetch()}
-                  className="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-mono text-xs font-bold uppercase transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-                >
-                  Reload SWAPI Registry
-                </button>
-              </div>
+            ) : filteredCharacters.length === 0 ? (
+              <EmptyState onResetFilters={handleResetFilters} />
             ) : (
               <div className="space-y-8">
                 {/* Responsive Live SWAPI Character Grid */}
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={currentPage}
+                    key={`${currentPage}-${searchInput}-${filters.species}-${filters.homeworld}-${filters.film}`}
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -12 }}
                     transition={{ duration: 0.25 }}
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                   >
-                    {characters.map((character) => (
+                    {filteredCharacters.map((character) => (
                       <CharacterCard
                         key={character.id}
                         character={character}

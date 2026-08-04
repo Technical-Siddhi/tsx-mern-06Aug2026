@@ -10,4 +10,6 @@ export * from './SpeciesBadge';
 export * from './Pagination';
 export * from './SkeletonLoader';
 export * from './ErrorState';
+export * from './EmptyState';
 export * from './Footer';
+

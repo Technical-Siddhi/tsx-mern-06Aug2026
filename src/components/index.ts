@@ -11,6 +11,8 @@ export * from './starwars/SpeciesBadge';
 export * from './starwars/Pagination';
 export * from './starwars/SkeletonLoader';
 export * from './starwars/ErrorState';
+export * from './starwars/EmptyState';
 export * from './starwars/Footer';
 export { Footer as CommonFooter } from './common/Footer';
+
 

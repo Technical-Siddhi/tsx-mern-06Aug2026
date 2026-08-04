@@ -3,14 +3,24 @@ import React from 'react';
 interface SearchBarProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClear?: () => void;
   placeholder?: string;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
   value,
   onChange,
+  onClear,
   placeholder = 'Search Star Wars characters by name...',
 }) => {
+  const handleClear = () => {
+    if (onClear) {
+      onClear();
+    } else {
+      onChange({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
+    }
+  };
+
   return (
     <div className="relative w-full">
       <div
@@ -38,14 +48,14 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        aria-label="Search Star Wars characters"
+        aria-label="Search Star Wars characters by name"
         className="w-full pl-12 pr-10 py-3 rounded-2xl bg-slate-900/90 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 shadow-xl text-sm transition-all duration-300 font-sans"
       />
 
       {value && (
         <button
           type="button"
-          onClick={() => onChange({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>)}
+          onClick={handleClear}
           className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-amber-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 rounded-lg transition"
           aria-label="Clear search input"
         >
@@ -62,3 +72,5 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     </div>
   );
 };
+
+export default SearchBar;
