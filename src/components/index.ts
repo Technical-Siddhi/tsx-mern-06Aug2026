@@ -1,2 +1,12 @@
 export * from './common/Header';
-export * from './common/Footer';
+export * from './starwars/Navbar';
+export * from './starwars/HeroSection';
+export * from './starwars/SearchBar';
+export * from './starwars/FilterPanel';
+export * from './starwars/CharacterCard';
+export * from './starwars/CharacterModal';
+export * from './starwars/Pagination';
+export * from './starwars/SkeletonLoader';
+export * from './starwars/ErrorState';
+export * from './starwars/Footer';
+export { Footer as CommonFooter } from './common/Footer';
