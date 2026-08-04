@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 interface SearchBarProps {
   value: string;
@@ -7,7 +7,7 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({
+export const SearchBar: React.FC<SearchBarProps> = memo(({
   value,
   onChange,
   onClear,
@@ -71,6 +71,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       )}
     </div>
   );
-};
+});
+
+SearchBar.displayName = 'SearchBar';
 
 export default SearchBar;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 interface PaginationProps {
   currentPage: number;
@@ -6,7 +6,7 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export const Pagination: React.FC<PaginationProps> = ({
+export const Pagination: React.FC<PaginationProps> = memo(({
   currentPage,
   totalPages,
   onPageChange,
@@ -79,4 +79,6 @@ export const Pagination: React.FC<PaginationProps> = ({
       </button>
     </nav>
   );
-};
+});
+
+Pagination.displayName = 'Pagination';

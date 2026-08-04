@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { FilterOptions } from '../../types';
 
 interface FilterPanelProps {
@@ -10,7 +10,7 @@ interface FilterPanelProps {
   filmsList?: string[];
 }
 
-export const FilterPanel: React.FC<FilterPanelProps> = ({
+export const FilterPanel: React.FC<FilterPanelProps> = memo(({
   filters,
   onFilterChange,
   onResetFilters,
@@ -105,6 +105,8 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
       </button>
     </div>
   );
-};
+});
+
+FilterPanel.displayName = 'FilterPanel';
 
 export default FilterPanel;

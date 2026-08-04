@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" fill="#020617"/>
+  <rect x="20" y="20" width="760" height="50" rx="12" fill="#0F172A" stroke="#1E293B"/>
+  <circle cx="50" cy="45" r="14" fill="#F59E0B" fill-opacity="0.2" stroke="#F59E0B"/>
+  <text x="50" y="49" fill="#F59E0B" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">SW</text>
+  <text x="75" y="50" fill="#F8FAFC" font-family="monospace" font-size="14" font-weight="bold">Star Wars Explorer</text>
+  
+  <rect x="20" y="90" width="760" height="100" rx="16" fill="#0F172A" stroke="#334155"/>
+  <text x="40" y="130" fill="#F59E0B" font-family="monospace" font-size="20" font-weight="bold">GALACTIC ARCHIVES &amp; HOLOCRON CODEX</text>
+  <text x="40" y="155" fill="#94A3B8" font-family="sans-serif" font-size="12">Explore characters, species, and homeworld demographics across the galaxy.</text>
+
+  <rect x="20" y="210" width="400" height="40" rx="12" fill="#0F172A" stroke="#334155"/>
+  <text x="40" y="235" fill="#64748B" font-family="sans-serif" font-size="12">Search Star Wars characters by name...</text>
+
+  <!-- Grid Cards -->
+  <rect x="20" y="270" width="175" height="150" rx="16" fill="#0F172A" stroke="#1E293B"/>
+  <rect x="20" y="270" width="175" height="80" fill="#1E293B"/>
+  <text x="35" y="375" fill="#F8FAFC" font-family="monospace" font-size="12" font-weight="bold">Luke Skywalker</text>
+  
+  <rect x="215" y="270" width="175" height="150" rx="16" fill="#0F172A" stroke="#1E293B"/>
+  <rect x="215" y="270" width="175" height="80" fill="#1E293B"/>
+  <text x="230" y="375" fill="#F8FAFC" font-family="monospace" font-size="12" font-weight="bold">Darth Vader</text>
+
+  <rect x="410" y="270" width="175" height="150" rx="16" fill="#0F172A" stroke="#1E293B"/>
+  <rect x="410" y="270" width="175" height="80" fill="#1E293B"/>
+  <text x="425" y="375" fill="#F8FAFC" font-family="monospace" font-size="12" font-weight="bold">Leia Organa</text>
+
+  <rect x="605" y="270" width="175" height="150" rx="16" fill="#0F172A" stroke="#1E293B"/>
+  <rect x="605" y="270" width="175" height="80" fill="#1E293B"/>
+  <text x="620" y="375" fill="#F8FAFC" font-family="monospace" font-size="12" font-weight="bold">Obi-Wan Kenobi</text>
+</svg>

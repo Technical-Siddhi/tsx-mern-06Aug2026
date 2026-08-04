@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Character } from '../../types';
 
@@ -7,7 +7,7 @@ interface CharacterCardProps {
   onViewDetails: (character: Character) => void;
 }
 
-export const CharacterCard: React.FC<CharacterCardProps> = ({ character, onViewDetails }) => {
+export const CharacterCard: React.FC<CharacterCardProps> = memo(({ character, onViewDetails }) => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -108,4 +108,6 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({ character, onViewD
       </div>
     </motion.div>
   );
-};
+});
+
+CharacterCard.displayName = 'CharacterCard';

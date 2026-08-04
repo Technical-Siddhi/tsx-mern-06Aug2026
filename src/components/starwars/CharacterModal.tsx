@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Character } from '../../types';
 import { useCharacterDetails, usePlanetDetails, useSpeciesDetails } from '../../hooks';
@@ -13,13 +13,14 @@ interface CharacterModalProps {
   onClose: () => void;
 }
 
-export const CharacterModal: React.FC<CharacterModalProps> = ({
+export const CharacterModal: React.FC<CharacterModalProps> = memo(({
   character,
   characterId,
   isOpen,
   onClose,
 }) => {
   const activeId = characterId || character?.id || null;
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // React Query Data Hooks with required cache keys:
   // ['character', id], ['planet', url], ['species', url]
@@ -46,17 +47,46 @@ export const CharacterModal: React.FC<CharacterModalProps> = ({
     isError: isSpeciesError,
   } = useSpeciesDetails(speciesUrl);
 
-  // ESC Key & Body Scroll Lock
+  // Focus Trap & ESC Key handling
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
+        return;
+      }
+
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusables = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length === 0) return;
+
+        const firstElement = focusables[0];
+        const lastElement = focusables[focusables.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
       }
     };
 
     if (isOpen) {
       document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
+
+      // Auto-focus close button on mount for keyboard navigation
+      setTimeout(() => {
+        const closeBtn = modalRef.current?.querySelector<HTMLElement>('button');
+        closeBtn?.focus();
+      }, 50);
     }
 
     return () => {
@@ -95,6 +125,7 @@ export const CharacterModal: React.FC<CharacterModalProps> = ({
 
           {/* Modal Container */}
           <motion.div
+            ref={modalRef}
             initial={{ opacity: 0, scale: 0.92, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 15 }}
@@ -169,6 +200,7 @@ export const CharacterModal: React.FC<CharacterModalProps> = ({
                           src={characterImage}
                           alt={characterName}
                           className="w-full h-full object-cover object-center"
+                          loading="lazy"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
                       </>
@@ -241,6 +273,8 @@ export const CharacterModal: React.FC<CharacterModalProps> = ({
       )}
     </AnimatePresence>
   );
-};
+});
+
+CharacterModal.displayName = 'CharacterModal';
 
 export default CharacterModal;

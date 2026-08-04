@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Navbar,
@@ -36,17 +36,20 @@ export const Home: React.FC = () => {
   });
 
   // Combined Active Filters Object (using 300ms debounced search)
-  const activeFilters: FilterOptions = {
-    search: debouncedSearch,
-    species: filters.species,
-    homeworld: filters.homeworld,
-    film: filters.film,
-  };
+  const activeFilters: FilterOptions = useMemo(
+    () => ({
+      search: debouncedSearch,
+      species: filters.species,
+      homeworld: filters.homeworld,
+      film: filters.film,
+    }),
+    [debouncedSearch, filters.species, filters.homeworld, filters.film]
+  );
 
   // React Query SWAPI Live Data Integration
   const { data, isLoading, isError, error, refetch, isFetching } = useCharacters(currentPage);
 
-  const rawCharacters = data?.results || [];
+  const rawCharacters = useMemo(() => data?.results || [], [data?.results]);
   const totalPages = data?.totalPages || 1;
   const totalCharacters = data?.count || 0;
 
@@ -54,27 +57,27 @@ export const Home: React.FC = () => {
   const { filteredCharacters, availableSpecies, availableHomeworlds, availableFilms } =
     useFilteredCharacters(rawCharacters, activeFilters);
 
-  // Handlers
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handlers wrapped in useCallback for performance
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
     setCurrentPage(1); // Reset page on search change
-  };
+  }, []);
 
-  const handleClearSearch = () => {
+  const handleClearSearch = useCallback(() => {
     setSearchInput('');
     setCurrentPage(1);
-  };
+  }, []);
 
-  const handleFilterChange = (key: keyof FilterOptions, value: string) => {
+  const handleFilterChange = useCallback((key: keyof FilterOptions, value: string) => {
     if (key === 'search') {
       setSearchInput(value);
     } else {
       setFilters((prev) => ({ ...prev, [key]: value }));
     }
     setCurrentPage(1); // Reset page on filter change
-  };
+  }, []);
 
-  const handleResetFilters = () => {
+  const handleResetFilters = useCallback(() => {
     setSearchInput('');
     setFilters({
       species: '',
@@ -82,17 +85,21 @@ export const Home: React.FC = () => {
       film: '',
     });
     setCurrentPage(1);
-  };
+  }, []);
 
-  const handleViewDetails = (character: Character) => {
+  const handleViewDetails = useCallback((character: Character) => {
     setSelectedCharacter(character);
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
     setSelectedCharacter(null);
-  };
+  }, []);
+
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between overflow-x-hidden selection:bg-amber-400 selection:text-slate-950">
@@ -174,7 +181,7 @@ export const Home: React.FC = () => {
                   <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}
-                    onPageChange={(page) => setCurrentPage(page)}
+                    onPageChange={handlePageChange}
                   />
                 )}
               </div>
