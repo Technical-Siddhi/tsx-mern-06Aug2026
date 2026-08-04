@@ -1,7 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../context/AuthContext';
 
 export const Navbar: React.FC = () => {
+  const { user, isAuthenticated, logout } = useAuthContext();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-slate-950/85 border-b border-amber-500/20 shadow-2xl shadow-amber-500/5">
       <nav
@@ -27,17 +36,45 @@ export const Navbar: React.FC = () => {
           </div>
         </Link>
 
-        {/* Galaxy Status Badge */}
-        <div className="flex items-center space-x-3">
-          <span className="inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-mono font-medium bg-amber-400/10 border border-amber-400/30 text-amber-300 shadow-inner">
+        {/* Galaxy Status & Auth Actions */}
+        <div className="flex items-center space-x-3 sm:space-x-4">
+          <span className="hidden md:inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-mono font-medium bg-amber-400/10 border border-amber-400/30 text-amber-300 shadow-inner">
             <span
               className="w-2 h-2 rounded-full bg-amber-400 animate-pulse mr-2"
               aria-hidden="true"
             />
             Galaxy DB Active
           </span>
+
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-3">
+              {/* User Profile Badge */}
+              <div className="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span className="font-bold text-white">{user?.username || 'admin'}</span>
+              </div>
+
+              {/* Logout Button */}
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-red-500/20 border border-slate-800 hover:border-red-500/50 text-slate-300 hover:text-red-400 text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                aria-label="Logout of Star Wars Archives"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-mono font-bold uppercase tracking-wider transition shadow-md shadow-amber-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </nav>
     </header>
   );
 };
+

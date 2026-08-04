@@ -1,10 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Routes, Route } from 'react-router-dom';
 import { http, HttpResponse } from 'msw';
 import { server } from './mocks/server';
 import { renderWithProviders } from './test-utils';
 import { Home } from '../pages/Home';
+import { Login } from '../pages/Login';
+import { ProtectedRoute } from '../components/ProtectedRoute';
 
 describe('Star Wars Application Integration Tests', () => {
   // Test 1: Character list renders successfully
@@ -217,5 +220,71 @@ describe('Star Wars Application Integration Tests', () => {
       expect(screen.getByText('C-3PO')).toBeInTheDocument();
       expect(screen.queryByText('Luke Skywalker')).not.toBeInTheDocument();
     });
+  });
+
+  // Test 12: Successful Login Flow with admin/123456
+  it('12. successful login with admin/123456 generates JWT token and authenticates user', async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<Login />, { isAuthenticated: false, initialEntries: ['/login'] });
+
+    const usernameInput = screen.getByLabelText(/username clearance/i);
+    const passwordInput = screen.getByLabelText(/security password/i);
+    const submitBtn = screen.getByRole('button', { name: /initiate holocron session/i });
+
+    await user.clear(usernameInput);
+    await user.type(usernameInput, 'admin');
+
+    await user.clear(passwordInput);
+    await user.type(passwordInput, '123456');
+
+    await user.click(submitBtn);
+
+    await waitFor(() => {
+      const storedToken = localStorage.getItem('auth_token');
+      expect(storedToken).toBeTruthy();
+      expect(storedToken?.split('.').length).toBe(3);
+    });
+  });
+
+  // Test 13: Invalid Login Credentials Alert
+  it('13. invalid login credentials display error alert', async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<Login />, { isAuthenticated: false, initialEntries: ['/login'] });
+
+    const usernameInput = screen.getByLabelText(/username clearance/i);
+    const passwordInput = screen.getByLabelText(/security password/i);
+    const submitBtn = screen.getByRole('button', { name: /initiate holocron session/i });
+
+    await user.clear(usernameInput);
+    await user.type(usernameInput, 'wronguser');
+
+    await user.clear(passwordInput);
+    await user.type(passwordInput, 'wrongpass');
+
+    await user.click(submitBtn);
+
+    const alertMessage = await screen.findByRole('alert');
+    expect(alertMessage).toHaveTextContent(/invalid security credentials/i);
+  });
+
+  // Test 14: Protected route redirects unauthenticated user
+  it('14. protected route redirects unauthenticated user to login', async () => {
+    renderWithProviders(
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+      </Routes>,
+      { isAuthenticated: false, initialEntries: ['/'] }
+    );
+
+    const loginHeader = await screen.findByRole('heading', { level: 1, name: /holocron security access/i });
+    expect(loginHeader).toBeInTheDocument();
   });
 });

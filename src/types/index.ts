@@ -111,6 +111,7 @@ export interface FilterOptions {
 
 export interface User {
   id: string;
+  username: string;
   name: string;
   email: string;
   role: 'admin' | 'user';
@@ -128,3 +129,12 @@ export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
 }
+
+export interface AuthContextType {
+  user: User | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  login: (username: string, password: string) => Promise<boolean>;
+  logout: () => void;
+}
+
