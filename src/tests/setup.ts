@@ -32,6 +32,35 @@ if (typeof globalThis.localStorage === 'undefined' || typeof globalThis.localSto
   });
 }
 
+// Polyfill IntersectionObserver for Framer Motion whileInView in JSDOM
+class MockIntersectionObserver {
+  readonly root: Element | null = null;
+  readonly rootMargin: string = '';
+  readonly thresholds: ReadonlyArray<number> = [];
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+  takeRecords(): IntersectionObserverEntry[] {
+    return [];
+  }
+}
+
+if (typeof window !== 'undefined' && !window.IntersectionObserver) {
+  Object.defineProperty(window, 'IntersectionObserver', {
+    writable: true,
+    configurable: true,
+    value: MockIntersectionObserver,
+  });
+}
+
+if (typeof globalThis !== 'undefined' && !globalThis.IntersectionObserver) {
+  Object.defineProperty(globalThis, 'IntersectionObserver', {
+    writable: true,
+    configurable: true,
+    value: MockIntersectionObserver,
+  });
+}
+
 beforeAll(() => server.listen({ onUnhandledRequest: 'bypass' }));
 
 afterEach(() => {
