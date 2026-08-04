@@ -10,9 +10,19 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
   onRetry,
 }) => {
   return (
-    <div className="max-w-md mx-auto my-12 p-8 text-center bg-slate-900/80 border border-red-500/30 rounded-3xl shadow-2xl backdrop-blur-xl">
-      <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center shadow-lg">
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div
+      className="max-w-md mx-auto my-12 p-8 text-center bg-slate-900/80 border border-red-500/30 rounded-3xl shadow-2xl backdrop-blur-xl space-y-4"
+      role="alert"
+      aria-live="assertive"
+    >
+      <div className="w-16 h-16 mx-auto rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center shadow-lg">
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -22,16 +32,19 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
         </svg>
       </div>
 
-      <h3 className="text-xl font-bold font-mono text-white mb-2">Transmission Interrupt</h3>
-      <p className="text-sm text-slate-400 mb-6 leading-relaxed">{message}</p>
+      <h3 className="text-xl font-bold font-mono text-white">Transmission Interrupt</h3>
+      <p className="text-sm text-slate-300 leading-relaxed">{message}</p>
 
       {onRetry && (
-        <button
-          onClick={onRetry}
-          className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-400 hover:to-rose-500 text-white font-mono text-xs font-bold uppercase tracking-wider transition shadow-lg shadow-red-500/25"
-        >
-          Re-establish Connection
-        </button>
+        <div className="pt-2">
+          <button
+            type="button"
+            onClick={onRetry}
+            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-400 hover:to-rose-500 text-white font-mono text-xs font-bold uppercase tracking-wider transition shadow-lg shadow-red-500/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+          >
+            Re-establish Connection
+          </button>
+        </div>
       )}
     </div>
   );

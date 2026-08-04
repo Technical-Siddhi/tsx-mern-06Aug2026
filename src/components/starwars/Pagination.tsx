@@ -14,17 +14,28 @@ export const Pagination: React.FC<PaginationProps> = ({
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <div className="flex items-center justify-center space-x-2 py-8">
+    <nav
+      className="flex items-center justify-center space-x-2 py-8"
+      aria-label="Pagination Navigation"
+    >
       {/* Previous Button */}
       <button
+        type="button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-mono text-xs font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-800 hover:text-amber-400 hover:border-slate-700 transition shadow-lg flex items-center space-x-1"
+        aria-label="Go to previous page"
+        className="px-3.5 sm:px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-mono text-xs font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:enabled:bg-slate-800 hover:enabled:text-amber-400 hover:enabled:border-slate-700 transition shadow-lg flex items-center space-x-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
       >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
         </svg>
-        <span>Previous</span>
+        <span className="hidden sm:inline">Previous</span>
       </button>
 
       {/* Page Numbers */}
@@ -32,10 +43,13 @@ export const Pagination: React.FC<PaginationProps> = ({
         {pages.map((page) => (
           <button
             key={page}
+            type="button"
             onClick={() => onPageChange(page)}
-            className={`w-9 h-9 rounded-xl font-bold transition flex items-center justify-center ${
+            aria-current={currentPage === page ? 'page' : undefined}
+            aria-label={`Page ${page}`}
+            className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl font-bold transition flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
               currentPage === page
-                ? 'bg-amber-500 text-slate-950 border border-amber-400 shadow-lg shadow-amber-500/25'
+                ? 'bg-amber-400 text-slate-950 border border-amber-300 shadow-lg shadow-amber-400/25 scale-105'
                 : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
             }`}
           >
@@ -46,15 +60,23 @@ export const Pagination: React.FC<PaginationProps> = ({
 
       {/* Next Button */}
       <button
+        type="button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-mono text-xs font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-800 hover:text-amber-400 hover:border-slate-700 transition shadow-lg flex items-center space-x-1"
+        aria-label="Go to next page"
+        className="px-3.5 sm:px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-mono text-xs font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:enabled:bg-slate-800 hover:enabled:text-amber-400 hover:enabled:border-slate-700 transition shadow-lg flex items-center space-x-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
       >
-        <span>Next</span>
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <span className="hidden sm:inline">Next</span>
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
         </svg>
       </button>
-    </div>
+    </nav>
   );
 };

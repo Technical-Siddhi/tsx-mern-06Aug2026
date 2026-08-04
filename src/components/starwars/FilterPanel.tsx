@@ -35,91 +35,81 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
   ],
 }) => {
   return (
-    <div className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-5 shadow-2xl backdrop-blur-xl space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold uppercase tracking-wider font-mono text-amber-400 flex items-center space-x-2">
-          <svg
-            className="w-4 h-4 text-amber-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-            />
-          </svg>
-          <span>Holocron Filters</span>
-        </h3>
-
-        <button
-          onClick={onResetFilters}
-          className="text-xs font-mono px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 border border-slate-700 transition"
+    <div
+      className="flex flex-col md:flex-row flex-wrap items-stretch md:items-center gap-3 bg-slate-900/70 border border-slate-800/80 rounded-2xl p-3 sm:p-4 shadow-xl backdrop-blur-xl"
+      aria-label="Holocron Filter Options"
+    >
+      {/* Dropdown: Species */}
+      <div className="flex-1 min-w-[140px]">
+        <label htmlFor="species-filter" className="sr-only">
+          Filter by Species
+        </label>
+        <select
+          id="species-filter"
+          value={filters.species}
+          onChange={(e) => onFilterChange('species', e.target.value)}
+          aria-label="Filter by Species"
+          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 font-mono transition"
         >
-          Reset Filters
-        </button>
+          <option value="">All Species</option>
+          {speciesList.map((species) => (
+            <option key={species} value={species}>
+              {species}
+            </option>
+          ))}
+        </select>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Dropdown: Species */}
-        <div>
-          <label className="block text-xs font-medium text-slate-400 mb-1.5 font-mono">
-            Species
-          </label>
-          <select
-            value={filters.species}
-            onChange={(e) => onFilterChange('species', e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition"
-          >
-            <option value="">All Species</option>
-            {speciesList.map((species) => (
-              <option key={species} value={species}>
-                {species}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Dropdown: Homeworld */}
-        <div>
-          <label className="block text-xs font-medium text-slate-400 mb-1.5 font-mono">
-            Homeworld
-          </label>
-          <select
-            value={filters.homeworld}
-            onChange={(e) => onFilterChange('homeworld', e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition"
-          >
-            <option value="">All Homeworlds</option>
-            {homeworldList.map((world) => (
-              <option key={world} value={world}>
-                {world}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Dropdown: Films */}
-        <div>
-          <label className="block text-xs font-medium text-slate-400 mb-1.5 font-mono">
-            Film Title
-          </label>
-          <select
-            value={filters.film}
-            onChange={(e) => onFilterChange('film', e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition"
-          >
-            <option value="">All Films</option>
-            {filmsList.map((film) => (
-              <option key={film} value={film}>
-                {film}
-              </option>
-            ))}
-          </select>
-        </div>
+      {/* Dropdown: Homeworld */}
+      <div className="flex-1 min-w-[140px]">
+        <label htmlFor="homeworld-filter" className="sr-only">
+          Filter by Homeworld
+        </label>
+        <select
+          id="homeworld-filter"
+          value={filters.homeworld}
+          onChange={(e) => onFilterChange('homeworld', e.target.value)}
+          aria-label="Filter by Homeworld"
+          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 font-mono transition"
+        >
+          <option value="">All Homeworlds</option>
+          {homeworldList.map((world) => (
+            <option key={world} value={world}>
+              {world}
+            </option>
+          ))}
+        </select>
       </div>
+
+      {/* Dropdown: Films */}
+      <div className="flex-1 min-w-[140px]">
+        <label htmlFor="film-filter" className="sr-only">
+          Filter by Film
+        </label>
+        <select
+          id="film-filter"
+          value={filters.film}
+          onChange={(e) => onFilterChange('film', e.target.value)}
+          aria-label="Filter by Film Title"
+          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 font-mono transition"
+        >
+          <option value="">All Films</option>
+          {filmsList.map((film) => (
+            <option key={film} value={film}>
+              {film}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Reset Filters Button */}
+      <button
+        type="button"
+        onClick={onResetFilters}
+        className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 border border-slate-700 font-mono text-xs font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 whitespace-nowrap"
+      >
+        Reset Filters
+      </button>
     </div>
   );
 };

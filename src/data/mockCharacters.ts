@@ -13,8 +13,7 @@ export const MOCK_CHARACTERS: Character[] = [
     climate: 'Arid, Hot',
     residents: '200,000',
     films: ['A New Hope', 'The Empire Strikes Back', 'Return of the Jedi', 'Revenge of the Sith'],
-    image:
-      'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/LukeSkywalker/600/800',
     createdAt: '2014-12-09T13:50:51.644000Z',
   },
   {
@@ -29,8 +28,7 @@ export const MOCK_CHARACTERS: Character[] = [
     climate: 'Temperate, Hot',
     residents: '200,000',
     films: ['A New Hope', 'The Empire Strikes Back', 'Return of the Jedi', 'Revenge of the Sith'],
-    image:
-      'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/DarthVader/600/800',
     createdAt: '2014-12-10T15:18:20.704000Z',
   },
   {
@@ -45,8 +43,7 @@ export const MOCK_CHARACTERS: Character[] = [
     climate: 'Temperate',
     residents: '2,000,000,000',
     films: ['A New Hope', 'The Empire Strikes Back', 'Return of the Jedi', 'Revenge of the Sith'],
-    image:
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/LeiaOrgana/600/800',
     createdAt: '2014-12-10T15:20:09.791000Z',
   },
   {
@@ -66,8 +63,7 @@ export const MOCK_CHARACTERS: Character[] = [
       'The Phantom Menace',
       'Attack of the Clones',
     ],
-    image:
-      'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/Yoda/600/800',
     createdAt: '2014-12-15T12:26:01.042000Z',
   },
   {
@@ -82,8 +78,7 @@ export const MOCK_CHARACTERS: Character[] = [
     climate: 'Temperate',
     residents: '3,000,000,000',
     films: ['A New Hope', 'The Empire Strikes Back', 'Return of the Jedi', 'The Force Awakens'],
-    image:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/HanSolo/600/800',
     createdAt: '2014-12-10T16:49:14.582000Z',
   },
   {
@@ -98,8 +93,7 @@ export const MOCK_CHARACTERS: Character[] = [
     climate: 'Tropical',
     residents: '45,000,000',
     films: ['A New Hope', 'The Empire Strikes Back', 'Return of the Jedi', 'Revenge of the Sith'],
-    image:
-      'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/Chewbacca/600/800',
     createdAt: '2014-12-10T16:59:45.024000Z',
   },
   {
@@ -121,8 +115,7 @@ export const MOCK_CHARACTERS: Character[] = [
       'Attack of the Clones',
       'Revenge of the Sith',
     ],
-    image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/ObiWanKenobi/600/800',
     createdAt: '2014-12-10T16:16:29.192000Z',
   },
   {
@@ -137,8 +130,7 @@ export const MOCK_CHARACTERS: Character[] = [
     climate: 'Temperate',
     residents: 'Unknown',
     films: ['The Clone Wars', 'Rebels', 'The Mandalorian', 'Ahsoka'],
-    image:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/AhsokaTano/600/800',
     createdAt: '2014-12-12T11:15:33.210000Z',
   },
   {
@@ -153,8 +145,7 @@ export const MOCK_CHARACTERS: Character[] = [
     climate: 'Arid, Hot',
     residents: '4,000,000',
     films: ['The Mandalorian', 'The Book of Boba Fett'],
-    image:
-      'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/DinDjarin/600/800',
     createdAt: '2014-12-15T18:22:12.809000Z',
   },
   {
@@ -176,8 +167,7 @@ export const MOCK_CHARACTERS: Character[] = [
       'Attack of the Clones',
       'Revenge of the Sith',
     ],
-    image:
-      'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/R2D2/600/800',
     createdAt: '2014-12-10T15:11:50.376000Z',
   },
   {
@@ -197,8 +187,7 @@ export const MOCK_CHARACTERS: Character[] = [
       'Attack of the Clones',
       'The Book of Boba Fett',
     ],
-    image:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/BobaFett/600/800',
     createdAt: '2014-12-15T12:49:32.458000Z',
   },
   {
@@ -213,8 +202,7 @@ export const MOCK_CHARACTERS: Character[] = [
     climate: 'Temperate',
     residents: '4,500,000,000',
     films: ['The Phantom Menace', 'Attack of the Clones', 'Revenge of the Sith'],
-    image:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80',
+    image: 'https://picsum.photos/seed/PadmeAmidala/600/800',
     createdAt: '2014-12-19T10:52:43.704000Z',
   },
 ];

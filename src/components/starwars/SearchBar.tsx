@@ -13,7 +13,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 }) => {
   return (
     <div className="relative w-full">
-      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-amber-500">
+      <div
+        className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-amber-500"
+        aria-hidden="true"
+      >
         <svg
           className="w-5 h-5"
           fill="none"
@@ -35,14 +38,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 shadow-xl text-sm transition-all duration-300 font-sans"
+        aria-label="Search Star Wars characters"
+        className="w-full pl-12 pr-10 py-3 rounded-2xl bg-slate-900/90 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 shadow-xl text-sm transition-all duration-300 font-sans"
       />
 
       {value && (
         <button
+          type="button"
           onClick={() => onChange({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>)}
-          className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-white transition"
-          aria-label="Clear search"
+          className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-amber-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 rounded-lg transition"
+          aria-label="Clear search input"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
