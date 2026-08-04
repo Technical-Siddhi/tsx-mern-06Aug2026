@@ -5,8 +5,12 @@ export * from './starwars/SearchBar';
 export * from './starwars/FilterPanel';
 export * from './starwars/CharacterCard';
 export * from './starwars/CharacterModal';
+export * from './starwars/CharacterStats';
+export * from './starwars/PlanetCard';
+export * from './starwars/SpeciesBadge';
 export * from './starwars/Pagination';
 export * from './starwars/SkeletonLoader';
 export * from './starwars/ErrorState';
 export * from './starwars/Footer';
 export { Footer as CommonFooter } from './common/Footer';
+
